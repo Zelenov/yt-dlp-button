@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "yt-yt-dlp",
+  "version": "1.0.0",
+  "description": "Adds a YT-DLP button next to Save on YouTube watch pages.",
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/watch*"],
+      "js": ["youtube-dlp.js", "content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["img/*.svg"],
+      "matches": ["https://www.youtube.com/*"]
+    }
+  ]
+}

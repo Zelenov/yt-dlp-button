@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.19 60.38">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: MyriadPro-Regular, 'Myriad Pro';
+        font-size: 55.55px;
+      }
+    </style>
+  </defs>
+  <text class="cls-1" transform="translate(0 46.5)"><tspan x="0" y="0">{</tspan></text>
+  <polygon points="19.26 29.97 33 15.17 33 44.76 19.26 29.97"/>
+  <rect x="27.87" y="24.75" width="22.31" height="10.44"/>
+</svg>
