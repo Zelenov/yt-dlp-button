@@ -14,12 +14,16 @@
       '  min-width: 6.5em;',
       '  flex-shrink: 0;',
       '}',
-      /* In/out segments: same width */
+      /* In/out segments: width follows icon + text so full timestamp is visible */
       '#ytytdlp-button .yt-spec-button-shape-next--segmented-start,',
       '#ytytdlp-button .yt-spec-button-shape-next--segmented-end {',
       '  min-width: 40px;',
-      '  width: 40px;',
+      '  width: max-content;',
       '  flex-shrink: 0;',
+      '}',
+      '#ytytdlp-button .ytytdlp-duration-text {',
+      '  white-space: nowrap;',
+      '  overflow: visible;',
       '}',
       /* Selected state: show selected icon, hide normal */
       '#ytytdlp-button .ytytdlp-selected .ytytdlp-icon-normal { display: none !important; }',
@@ -80,6 +84,20 @@
   const FLEXIBLE_BUTTONS_SELECTOR = '#flexible-item-buttons';
   const SAVE_BUTTON_TEXT = 'Save';
   const BALLOON_AUTO_HIDE_MS = 8000;
+
+  /** @returns {{ seconds: number, formatted: string } | null} current playback position or null if no video */
+  function getVideoCurrentTime() {
+    const video = document.querySelector('video');
+    if (!video || typeof video.currentTime !== 'number' || Number.isNaN(video.currentTime)) return null;
+    const seconds = video.currentTime;
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+    const formatted = h > 0
+      ? h + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0')
+      : m + ':' + String(s).padStart(2, '0');
+    return { seconds, formatted };
+  }
 
   function showYtDlpBalloon(message) {
     if (message && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
@@ -217,7 +235,7 @@
     const button = document.createElement('button');
     button.type = 'button';
     button.className = BASE_BUTTON_CLASSES + ' ' + segmentClass;
-    if (iconOnly || iconSvg) {
+    if (iconOnly || (iconSvg && iconSvg !== 'duration_in' && iconSvg !== 'duration_out')) {
       button.classList.add('yt-spec-button-shape-next--icon-button');
     } else {
       button.classList.add('yt-spec-button-shape-next--icon-leading');
@@ -248,6 +266,14 @@
       span.appendChild(iconShape);
       iconDiv.appendChild(span);
       button.appendChild(iconDiv);
+      const textContent = document.createElement('div');
+      textContent.className = 'yt-spec-button-shape-next__button-text-content ytytdlp-duration-text';
+      const textSpan = document.createElement('span');
+      textSpan.className = 'yt-core-attributed-string yt-core-attributed-string--white-space-no-wrap';
+      textSpan.setAttribute('role', 'text');
+      textSpan.textContent = '';
+      textContent.appendChild(textSpan);
+      button.appendChild(textContent);
     } else {
       const textContent = document.createElement('div');
       textContent.className = 'yt-spec-button-shape-next__button-text-content';
@@ -262,13 +288,30 @@
 
     button.addEventListener('click', function () {
       if (iconSvg === 'duration_in' || iconSvg === 'duration_out') {
-        button.classList.toggle('ytytdlp-selected');
+        const time = getVideoCurrentTime();
+        const baseLabel = iconSvg === 'duration_in' ? 'Start' : 'End';
+        const labelWithTime = time
+          ? baseLabel + ' at ' + time.formatted
+          : baseLabel;
+        button.setAttribute('aria-label', labelWithTime);
+        button.setAttribute('title', labelWithTime);
+        const textSpan = button.querySelector('.ytytdlp-duration-text [role="text"]');
+        if (textSpan) textSpan.textContent = time ? time.formatted : '';
+
+        if (time && window.YtDlpCommandBuilder) {
+          if (iconSvg === 'duration_in') {
+            window.YtDlpCommandBuilder.startTime = { seconds: time.seconds, formatted: time.formatted };
+          } else {
+            window.YtDlpCommandBuilder.endTime = { seconds: time.seconds, formatted: time.formatted };
+          }
+        }
+
+        button.classList.add('ytytdlp-selected');
         const normal = button.querySelector('.ytytdlp-icon-normal');
         const selected = button.querySelector('.ytytdlp-icon-selected');
         if (normal && selected) {
-          const isSelected = button.classList.contains('ytytdlp-selected');
-          normal.style.display = isSelected ? 'none' : 'block';
-          selected.style.display = isSelected ? 'block' : 'none';
+          normal.style.display = 'none';
+          selected.style.display = 'block';
         }
       } else {
         var message = typeof alertMessage === 'function' ? alertMessage() : alertMessage;
