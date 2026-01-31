@@ -265,7 +265,6 @@
       iconShape.appendChild(iconInner);
       span.appendChild(iconShape);
       iconDiv.appendChild(span);
-      button.appendChild(iconDiv);
       const textContent = document.createElement('div');
       textContent.className = 'yt-spec-button-shape-next__button-text-content ytytdlp-duration-text';
       const textSpan = document.createElement('span');
@@ -273,7 +272,13 @@
       textSpan.setAttribute('role', 'text');
       textSpan.textContent = '';
       textContent.appendChild(textSpan);
-      button.appendChild(textContent);
+      if (isOut) {
+        button.appendChild(textContent);
+        button.appendChild(iconDiv);
+      } else {
+        button.appendChild(iconDiv);
+        button.appendChild(textContent);
+      }
     } else {
       const textContent = document.createElement('div');
       textContent.className = 'yt-spec-button-shape-next__button-text-content';
