@@ -1,5 +1,5 @@
 /**
- * yt-dlp balloon (snackbar) logic for YouTube.
+ * yt-dlp balloon (snackbar) logic. Shared by all sites.
  * Uses the HTML from balloon-template.js (window.ytdlpbutton_balloon_html) only.
  * Exposes: window.ytdlpbutton_showBalloon(message).
  */
@@ -11,13 +11,9 @@
   var ICON_ID = 'ytdlpbutton-balloon-icon';
   var TEXT_ID = 'ytdlpbutton-balloon-text';
   var CLOSE_ID = 'ytdlpbutton-balloon-close';
-  var ICON_SVG = 'youtube/balloon/copied.svg';
+  var ICON_SVG = 'balloon/copied.svg';
 
   function showBalloon(message) {
-    if (message && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-      navigator.clipboard.writeText(message).catch(function () {});
-    }
-
     var existing = document.getElementById(BALLOON_ID);
     if (existing) existing.remove();
 

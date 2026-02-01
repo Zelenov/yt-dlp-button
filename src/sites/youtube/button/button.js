@@ -76,7 +76,7 @@
     context = context || {};
 
     if (typeof chrome !== 'undefined' && chrome.runtime && typeof chrome.runtime.getURL === 'function') {
-      var imgs = wrapper.querySelectorAll('img[src^="youtube/button/"]');
+      var imgs = wrapper.querySelectorAll('img[src^="sites/youtube/button/"]');
       for (var i = 0; i < imgs.length; i++) {
         imgs[i].src = chrome.runtime.getURL(imgs[i].getAttribute('src'));
       }
@@ -109,10 +109,8 @@
 
     if (midBtn) {
       midBtn.addEventListener('click', function () {
-        var builder = new window.YtdlpCommandBuilder();
-        var message = builder.build(getVideoUrl());
-        if (typeof window.ytdlpbutton_showBalloon === 'function') {
-          window.ytdlpbutton_showBalloon(message);
+        if (window.YtdlpCommandBuilder && typeof window.YtdlpCommandBuilder.run === 'function') {
+          window.YtdlpCommandBuilder.run(getVideoUrl());
         }
       });
     }

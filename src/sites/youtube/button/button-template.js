@@ -11,8 +11,8 @@
         <span class="ytIconWrapperHost">
           <span class="yt-icon-shape ytSpecIconShapeHost">
             <div>
-              <img class="ytdlpbutton-icon-normal" src="youtube/button/duration_in.svg" width="6" height="24" alt="" aria-hidden="true">
-              <img class="ytdlpbutton-icon-selected" src="youtube/button/duration_in.selected.svg" width="24" height="24" alt="" aria-hidden="true">
+              <img class="ytdlpbutton-icon-normal" src="sites/youtube/button/duration_in.svg" width="6" height="24" alt="" aria-hidden="true">
+              <img class="ytdlpbutton-icon-selected" src="sites/youtube/button/duration_in.selected.svg" width="24" height="24" alt="" aria-hidden="true">
             </div>
           </span>
         </span>
@@ -36,8 +36,8 @@
         <span class="ytIconWrapperHost">
           <span class="yt-icon-shape ytSpecIconShapeHost">
             <div>
-              <img class="ytdlpbutton-icon-normal" src="youtube/button/duration_out.svg" width="6" height="24" alt="" aria-hidden="true">
-              <img class="ytdlpbutton-icon-selected" src="youtube/button/duration_out.selected.svg" width="24" height="24" alt="" aria-hidden="true">
+              <img class="ytdlpbutton-icon-normal" src="sites/youtube/button/duration_out.svg" width="6" height="24" alt="" aria-hidden="true">
+              <img class="ytdlpbutton-icon-selected" src="sites/youtube/button/duration_out.selected.svg" width="24" height="24" alt="" aria-hidden="true">
             </div>
           </span>
         </span>

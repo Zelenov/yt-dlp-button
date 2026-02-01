@@ -1,6 +1,6 @@
 /**
  * yt-dlp command balloon (snackbar) styles.
- * Loaded by design/v1.html and by the extension (manifest content_scripts).
+ * Shared by all sites. Loaded by test pages and by the extension (manifest content_scripts).
  */
 #ytdlpbutton-balloon {
   position: fixed;

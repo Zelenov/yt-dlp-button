@@ -31,5 +31,23 @@
     return base;
   };
 
+  /**
+   * Runs whatever the extension has to do for the given video URL (e.g. build command,
+   * copy, show balloon). Single entry point from any site. Call this when the user
+   * triggers the extension action (e.g. clicks the yt-dlp button).
+   * @param {string} videoUrl - Full video watch URL (e.g. https://www.youtube.com/watch?v=...)
+   */
+  YtdlpCommandBuilder.run = function (videoUrl) {
+    var builder = new YtdlpCommandBuilder();
+    var command = builder.build(videoUrl);
+    if (!command) return;
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      navigator.clipboard.writeText(command).catch(function () {});
+    }
+    if (typeof global.ytdlpbutton_showBalloon === 'function') {
+      global.ytdlpbutton_showBalloon(command);
+    }
+  };
+
   global.YtdlpCommandBuilder = YtdlpCommandBuilder;
 })(typeof window !== 'undefined' ? window : this);
