@@ -61,13 +61,15 @@
   fill: currentColor;
 }
 
-/* Middle segment: square corners so it connects to start/end (override yt-spec default pill) */
+/* Middle segment: square corners so it connects to start/end (override yt-spec default pill); tighter width and padding */
 #ytdlpbutton-button button.ytdlpbutton-segment-mid {
   border-radius: 0 !important;
   margin-left: -1px;
   margin-right: -1px;
-  min-width: 6.5em;
+  min-width: 4em;
   flex-shrink: 0;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 /* In/out segments: size to content (icon + duration text when set); was min-width: 5em (= 70px at 14px font) */
 /* Override .yt-spec-button-shape-next { flex: 1; flex-basis: 0.000000001px } so start/end use content width */

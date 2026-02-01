@@ -1,6 +1,7 @@
 # Main: release only if version doesn't exist. Other branches: draft v{VERSION}-{branch} (replaced each run).
 # To run on a branch: ensure this workflow file is on that branch (e.g. merge main), then push a change to release.md or run manually and choose the branch.
 name: Release extension
+run-name: Release extension — ${{ github.ref_name }}
 
 on:
   workflow_dispatch:

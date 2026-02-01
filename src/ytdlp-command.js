@@ -22,7 +22,7 @@
     if (!videoUrl || typeof videoUrl !== 'string') return '';
     var trimmed = videoUrl.trim();
     if (!trimmed) return '';
-    var base = 'yt-dlp "' + trimmed + '" --recode-video mp4';
+    var base = 'yt-dlp "' + trimmed;
     var start = YtdlpCommandBuilder.startTime && YtdlpCommandBuilder.startTime.formatted;
     var end = YtdlpCommandBuilder.endTime && YtdlpCommandBuilder.endTime.formatted;
     if (start && end) {
