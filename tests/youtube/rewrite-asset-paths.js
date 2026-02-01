@@ -10,11 +10,11 @@
 
   var srcBase = '../../src/youtube/';
 
-  if (typeof window.ytytdlp_button_html === 'string') {
-    window.ytytdlp_button_html = window.ytytdlp_button_html.replace(/youtube\/button\//g, srcBase + 'button/');
+  if (typeof window.ytdlpbutton_button_html === 'string') {
+    window.ytdlpbutton_button_html = window.ytdlpbutton_button_html.replace(/youtube\/button\//g, srcBase + 'button/');
   }
 
-  if (typeof window.ytytdlp_balloon_html === 'string') {
-    window.ytytdlp_balloon_html = window.ytytdlp_balloon_html.replace(/youtube\/balloon\//g, srcBase + 'balloon/');
+  if (typeof window.ytdlpbutton_balloon_html === 'string') {
+    window.ytdlpbutton_balloon_html = window.ytdlpbutton_balloon_html.replace(/youtube\/balloon\//g, srcBase + 'balloon/');
   }
 })();

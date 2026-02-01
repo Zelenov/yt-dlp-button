@@ -2,7 +2,7 @@
  * yt-dlp command balloon (snackbar) styles.
  * Loaded by design/v1.html and by the extension (manifest content_scripts).
  */
-#ytytdlp-balloon {
+#ytdlpbutton-balloon {
   position: fixed;
   left: 50%;
   bottom: 24px;
@@ -24,19 +24,19 @@
   align-items: center;
   gap: 12px;
 }
-#ytytdlp-balloon.ytytdlp-balloon-visible {
+#ytdlpbutton-balloon.ytdlpbutton-balloon-visible {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
   pointer-events: auto;
 }
-#ytytdlp-balloon-icon,
-.ytytdlp-balloon-icon {
+#ytdlpbutton-balloon-icon,
+.ytdlpbutton-balloon-icon {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
   display: block;
 }
-#ytytdlp-balloon-text {
+#ytdlpbutton-balloon-text {
   flex: 1;
   word-break: normal;
   overflow-wrap: break-word;
@@ -44,7 +44,7 @@
   font-size: 13px;
   user-select: all;
 }
-#ytytdlp-balloon-close {
+#ytdlpbutton-balloon-close {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
@@ -57,4 +57,4 @@
   cursor: pointer;
   border-radius: 4px;
 }
-#ytytdlp-balloon-close:hover { color: #f1f1f1; background: rgba(255,255,255,0.1); }
+#ytdlpbutton-balloon-close:hover { color: #f1f1f1; background: rgba(255,255,255,0.1); }

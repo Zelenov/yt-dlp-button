@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var BUTTON_ID = 'ytytdlp-button';
+  var BUTTON_ID = 'ytdlpbutton-button';
 
   /** YouTube watch page: selector for the row that contains Save / clip buttons. */
   var FLEXIBLE_BUTTONS_SELECTOR = '#flexible-item-buttons';
@@ -42,7 +42,7 @@
     var targets = getInjectionTargets();
     if (targets.length === 0) return;
 
-    var inject = typeof window.ytytdlp_injectButton === 'function' ? window.ytytdlp_injectButton : null;
+    var inject = typeof window.ytdlpbutton_injectButton === 'function' ? window.ytdlpbutton_injectButton : null;
     if (!inject) return;
 
     for (var i = 0; i < targets.length; i++) {

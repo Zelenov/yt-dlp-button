@@ -1,68 +1,68 @@
 /**
  * yt-dlp button styles.
- * Loaded by design/v1.html and by the extension (manifest content_scripts); scoped to #ytytdlp-button.
+ * Loaded by design/v1.html and by the extension (manifest content_scripts); scoped to #ytdlpbutton-button.
  */
 /* Layout and structure (moved from template inline styles) */
-#ytytdlp-button .ytSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper {
+#ytdlpbutton-button .ytSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper {
   display: flex;
 }
-#ytytdlp-button .ytIconWrapperHost {
+#ytdlpbutton-button .ytIconWrapperHost {
   width: 24px;
   height: 24px;
   position: relative;
 }
 /* Start/End: icon container follows the visible SVG width (6px normal, 24px selected) */
-#ytytdlp-button .yt-spec-button-shape-next--segmented-start .yt-spec-button-shape-next__icon,
-#ytytdlp-button .yt-spec-button-shape-next--segmented-end .yt-spec-button-shape-next__icon {
+#ytdlpbutton-button .yt-spec-button-shape-next--segmented-start .yt-spec-button-shape-next__icon,
+#ytdlpbutton-button .yt-spec-button-shape-next--segmented-end .yt-spec-button-shape-next__icon {
   width: fit-content;
   height: 24px;
   margin-left: 0;
   margin-right: 0;
 }
-#ytytdlp-button .yt-spec-button-shape-next--segmented-start .ytIconWrapperHost,
-#ytytdlp-button .yt-spec-button-shape-next--segmented-end .ytIconWrapperHost {
+#ytdlpbutton-button .yt-spec-button-shape-next--segmented-start .ytIconWrapperHost,
+#ytdlpbutton-button .yt-spec-button-shape-next--segmented-end .ytIconWrapperHost {
   width: fit-content;
   height: 24px;
 }
-#ytytdlp-button .yt-spec-button-shape-next--segmented-start .yt-icon-shape.ytSpecIconShapeHost,
-#ytytdlp-button .yt-spec-button-shape-next--segmented-end .yt-icon-shape.ytSpecIconShapeHost {
+#ytdlpbutton-button .yt-spec-button-shape-next--segmented-start .yt-icon-shape.ytSpecIconShapeHost,
+#ytdlpbutton-button .yt-spec-button-shape-next--segmented-end .yt-icon-shape.ytSpecIconShapeHost {
   width: fit-content;
   height: 100%;
   display: block;
 }
-#ytytdlp-button .yt-icon-shape.ytSpecIconShapeHost {
+#ytdlpbutton-button .yt-icon-shape.ytSpecIconShapeHost {
   width: 100%;
   height: 100%;
   display: block;
 }
-#ytytdlp-button .yt-spec-button-shape-next--segmented-start .ytSpecIconShapeHost > div,
-#ytytdlp-button .yt-spec-button-shape-next--segmented-end .ytSpecIconShapeHost > div {
+#ytdlpbutton-button .yt-spec-button-shape-next--segmented-start .ytSpecIconShapeHost > div,
+#ytdlpbutton-button .yt-spec-button-shape-next--segmented-end .ytSpecIconShapeHost > div {
   width: fit-content;
   height: 100%;
   display: block;
   fill: currentColor;
   position: relative;
 }
-#ytytdlp-button .ytSpecIconShapeHost > div {
+#ytdlpbutton-button .ytSpecIconShapeHost > div {
   width: 100%;
   height: 100%;
   display: block;
   fill: currentColor;
   position: relative;
 }
-#ytytdlp-button .ytytdlp-icon-normal {
+#ytdlpbutton-button .ytdlpbutton-icon-normal {
   pointer-events: none;
   display: block;
   fill: currentColor;
 }
-#ytytdlp-button .ytytdlp-icon-selected {
+#ytdlpbutton-button .ytdlpbutton-icon-selected {
   pointer-events: none;
   display: none;
   fill: currentColor;
 }
 
 /* Middle segment: square corners so it connects to start/end (override yt-spec default pill) */
-#ytytdlp-button button.ytytdlp-segment-mid {
+#ytdlpbutton-button button.ytdlpbutton-segment-mid {
   border-radius: 0 !important;
   margin-left: -1px;
   margin-right: -1px;
@@ -71,23 +71,23 @@
 }
 /* In/out segments: size to content (icon + duration text when set); was min-width: 5em (= 70px at 14px font) */
 /* Override .yt-spec-button-shape-next { flex: 1; flex-basis: 0.000000001px } so start/end use content width */
-#ytytdlp-button .yt-spec-button-shape-next--segmented-start,
-#ytytdlp-button .yt-spec-button-shape-next--segmented-end {
+#ytdlpbutton-button .yt-spec-button-shape-next--segmented-start,
+#ytdlpbutton-button .yt-spec-button-shape-next--segmented-end {
   flex: none;
   flex-basis: auto;
   min-width: 0;
   width: max-content;
   flex-shrink: 0;
 }
-#ytytdlp-button .ytytdlp-duration-text {
+#ytdlpbutton-button .ytdlpbutton-duration-text {
   white-space: nowrap;
   overflow: visible;
   text-overflow: clip;
   min-width: 0;
 }
-#ytytdlp-button .ytytdlp-duration-text .yt-core-attributed-string {
+#ytdlpbutton-button .ytdlpbutton-duration-text .yt-core-attributed-string {
   overflow: visible;
   text-overflow: clip;
 }
-#ytytdlp-button .ytytdlp-selected .ytytdlp-icon-normal { display: none !important; }
-#ytytdlp-button .ytytdlp-selected .ytytdlp-icon-selected { display: block !important; }
+#ytdlpbutton-button .ytdlpbutton-selected .ytdlpbutton-icon-normal { display: none !important; }
+#ytdlpbutton-button .ytdlpbutton-selected .ytdlpbutton-icon-selected { display: block !important; }

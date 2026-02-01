@@ -1,21 +1,21 @@
 /**
  * yt-dlp button: builds the button from the template and injects it into a
- * given container. Uses one global window.ytytdlp_button_html; each target
+ * given container. Uses one global window.ytdlpbutton_button_html; each target
  * gets a clone. Refuses to inject if this container is already injected
- * (data-ytytdlp-injected). Context (getVideoUrl, getVideoElement) is
+ * (data-ytdlpbutton-injected). Context (getVideoUrl, getVideoElement) is
  * container-specific so each button knows which video it belongs to.
- * Expects: window.ytytdlp_button_html (button-template.js), window.YtdlpCommandBuilder (ytdlp-command.js).
- * Exposes: ytytdlp_injectButton(target), ytytdlp_attachButton().
+ * Expects: window.ytdlpbutton_button_html (button-template.js), window.YtdlpCommandBuilder (ytdlp-command.js).
+ * Exposes: ytdlpbutton_injectButton(target), ytdlpbutton_attachButton().
  */
 (function () {
   'use strict';
 
-  var BUTTON_ID_PREFIX = 'ytytdlp-button';
-  var CONTAINER_ID = 'ytytdlp-button-container';
-  var CONTAINER_INJECTED_ATTR = 'data-ytytdlp-injected';
+  var BUTTON_ID_PREFIX = 'ytdlpbutton-button';
+  var CONTAINER_ID = 'ytdlpbutton-button-container';
+  var CONTAINER_INJECTED_ATTR = 'data-ytdlpbutton-injected';
 
   function createButtonNode(instanceId) {
-    var html = typeof window.ytytdlp_button_html === 'string' ? window.ytytdlp_button_html : '';
+    var html = typeof window.ytdlpbutton_button_html === 'string' ? window.ytdlpbutton_button_html : '';
     if (!html) return null;
     var wrap = document.createElement('div');
     wrap.innerHTML = html.trim();
@@ -27,7 +27,7 @@
 
   /**
    * Injects the button into the given target. Does not inject if this
-   * container already has a button (container[data-ytytdlp-injected]).
+   * container already has a button (container[data-ytdlpbutton-injected]).
    * @param {{ container: Element, insertBefore?: Element, replace?: boolean, context?: { getVideoUrl, getVideoElement }, id?: string }} target
    *   - container: element to insert into (or to replace)
    *   - insertBefore: optional sibling to insert before; if omitted, appends
@@ -86,7 +86,7 @@
     var getVideoElement = context.getVideoElement || function () { return document.querySelector('video'); };
 
     var startBtn = wrapper.querySelector('.yt-spec-button-shape-next--segmented-start');
-    var midBtn = wrapper.querySelector('.ytytdlp-segment-mid');
+    var midBtn = wrapper.querySelector('.ytdlpbutton-segment-mid');
     var endBtn = wrapper.querySelector('.yt-spec-button-shape-next--segmented-end');
 
     if (startBtn) {
@@ -95,14 +95,14 @@
         var labelWithTime = time ? 'Start at ' + time.formatted : 'Start';
         startBtn.setAttribute('aria-label', labelWithTime);
         startBtn.setAttribute('title', labelWithTime);
-        var textSpan = startBtn.querySelector('.ytytdlp-duration-text [role="text"]');
+        var textSpan = startBtn.querySelector('.ytdlpbutton-duration-text [role="text"]');
         if (textSpan) textSpan.textContent = time ? time.formatted : '';
         if (time && window.YtdlpCommandBuilder) {
           window.YtdlpCommandBuilder.startTime = { seconds: time.seconds, formatted: time.formatted };
         }
-        startBtn.classList.add('ytytdlp-selected');
-        var normal = startBtn.querySelector('.ytytdlp-icon-normal');
-        var selected = startBtn.querySelector('.ytytdlp-icon-selected');
+        startBtn.classList.add('ytdlpbutton-selected');
+        var normal = startBtn.querySelector('.ytdlpbutton-icon-normal');
+        var selected = startBtn.querySelector('.ytdlpbutton-icon-selected');
         if (normal && selected) { normal.style.display = 'none'; selected.style.display = 'block'; }
       });
     }
@@ -111,8 +111,8 @@
       midBtn.addEventListener('click', function () {
         var builder = new window.YtdlpCommandBuilder();
         var message = builder.build(getVideoUrl());
-        if (typeof window.ytytdlp_showBalloon === 'function') {
-          window.ytytdlp_showBalloon(message);
+        if (typeof window.ytdlpbutton_showBalloon === 'function') {
+          window.ytdlpbutton_showBalloon(message);
         }
       });
     }
@@ -123,23 +123,23 @@
         var labelWithTime = time ? 'End at ' + time.formatted : 'End';
         endBtn.setAttribute('aria-label', labelWithTime);
         endBtn.setAttribute('title', labelWithTime);
-        var textSpan = endBtn.querySelector('.ytytdlp-duration-text [role="text"]');
+        var textSpan = endBtn.querySelector('.ytdlpbutton-duration-text [role="text"]');
         if (textSpan) textSpan.textContent = time ? time.formatted : '';
         if (time && window.YtdlpCommandBuilder) {
           window.YtdlpCommandBuilder.endTime = { seconds: time.seconds, formatted: time.formatted };
         }
-        endBtn.classList.add('ytytdlp-selected');
-        var normal = endBtn.querySelector('.ytytdlp-icon-normal');
-        var selected = endBtn.querySelector('.ytytdlp-icon-selected');
+        endBtn.classList.add('ytdlpbutton-selected');
+        var normal = endBtn.querySelector('.ytdlpbutton-icon-normal');
+        var selected = endBtn.querySelector('.ytdlpbutton-icon-selected');
         if (normal && selected) { normal.style.display = 'none'; selected.style.display = 'block'; }
       });
     }
   }
 
-  window.ytytdlp_injectButton = injectInto;
-  window.ytytdlp_attachButton = attachButton;
+  window.ytdlpbutton_injectButton = injectInto;
+  window.ytdlpbutton_attachButton = attachButton;
 
-  /** Test page: inject into #ytytdlp-button-container (replace that div with the button). */
+  /** Test page: inject into #ytdlpbutton-button-container (replace that div with the button). */
   function run() {
     var container = document.getElementById(CONTAINER_ID);
     if (container) {

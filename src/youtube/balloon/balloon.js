@@ -1,16 +1,16 @@
 /**
  * yt-dlp balloon (snackbar) logic for YouTube.
- * Uses the HTML from balloon-template.js (window.ytytdlp_balloon_html) only.
- * Exposes: window.ytytdlp_showBalloon(message).
+ * Uses the HTML from balloon-template.js (window.ytdlpbutton_balloon_html) only.
+ * Exposes: window.ytdlpbutton_showBalloon(message).
  */
 (function () {
   'use strict';
 
   var BALLOON_AUTO_HIDE_MS = 8000;
-  var BALLOON_ID = 'ytytdlp-balloon';
-  var ICON_ID = 'ytytdlp-balloon-icon';
-  var TEXT_ID = 'ytytdlp-balloon-text';
-  var CLOSE_ID = 'ytytdlp-balloon-close';
+  var BALLOON_ID = 'ytdlpbutton-balloon';
+  var ICON_ID = 'ytdlpbutton-balloon-icon';
+  var TEXT_ID = 'ytdlpbutton-balloon-text';
+  var CLOSE_ID = 'ytdlpbutton-balloon-close';
   var ICON_SVG = 'youtube/balloon/copied.svg';
 
   function showBalloon(message) {
@@ -21,7 +21,7 @@
     var existing = document.getElementById(BALLOON_ID);
     if (existing) existing.remove();
 
-    var html = typeof window.ytytdlp_balloon_html === 'string' ? window.ytytdlp_balloon_html : '';
+    var html = typeof window.ytdlpbutton_balloon_html === 'string' ? window.ytdlpbutton_balloon_html : '';
     if (!html) return;
 
     var wrap = document.createElement('div');
@@ -29,7 +29,7 @@
     var balloon = wrap.firstElementChild;
     if (!balloon) return;
 
-    var iconEl = balloon.querySelector('#' + ICON_ID) || balloon.querySelector('.ytytdlp-balloon-icon');
+    var iconEl = balloon.querySelector('#' + ICON_ID) || balloon.querySelector('.ytdlpbutton-balloon-icon');
     if (iconEl && typeof chrome !== 'undefined' && chrome.runtime && typeof chrome.runtime.getURL === 'function') {
       iconEl.src = chrome.runtime.getURL(ICON_SVG);
     }
@@ -42,11 +42,11 @@
     document.body.appendChild(balloon);
 
     requestAnimationFrame(function () {
-      balloon.classList.add('ytytdlp-balloon-visible');
+      balloon.classList.add('ytdlpbutton-balloon-visible');
     });
 
     function hide() {
-      balloon.classList.remove('ytytdlp-balloon-visible');
+      balloon.classList.remove('ytdlpbutton-balloon-visible');
       setTimeout(function () {
         if (balloon.parentNode) balloon.parentNode.removeChild(balloon);
       }, 250);
@@ -61,5 +61,5 @@
     }
   }
 
-  window.ytytdlp_showBalloon = showBalloon;
+  window.ytdlpbutton_showBalloon = showBalloon;
 })();
