@@ -24,12 +24,14 @@ Every version entry in **release.md** must include **at least one** of `## Added
 - **`## Added`** — What is included/new in this release (features, capabilities). Short bullet descriptions. Omit only if nothing was added.
 - **`## Changed`** — What was changed from before (behavior, API, UI). Short bullet descriptions. Omit only if nothing was changed.
 
+**Content guidelines:** Include mostly **business changes** (user-facing behavior, product decisions). Omit implementation details (e.g. internal bug fixes, refactors) unless they materially affect the user. When only one business change was made, use **one line**; keep release notes short.
+
 ## Instructions
 
 1. **New version:** Add a new H1 block at the **top** of release.md (above existing versions). Use the next version number (e.g. 0.2.0).
 2. **At least one section required:** Every version must have **at least one** of `## Added` or `## Changed`. Omit a section only when there are no items to list (no empty sections).
 3. **Initial release (0.1.0):** Use **`## Added`** with a **single short line** (one bullet) describing the first version (e.g. "Initial release. Chrome extension that adds a yt-dlp button on YouTube to copy a ready-made command."). Do not list every feature; keep it to one sentence. Omit `## Changed`.
-4. **Later releases (0.2.0+):** Use `## Added` and/or `## Changed` with bullet lists as needed.
+4. **Later releases (0.2.0+):** Use `## Added` and/or `## Changed` with bullet lists as needed. Prefer one line when there is only one business change.
 
 ## Example: initial release (0.1.0)
 
@@ -37,6 +39,14 @@ Every version entry in **release.md** must include **at least one** of `## Added
 # 0.1.0
 ## Added
 - Initial release. Chrome extension that adds a yt-dlp button on YouTube watch pages to copy a ready-made command for the current video.
+```
+
+## Example: later release with one business change (0.2.0)
+
+```markdown
+# 0.2.0
+## Changed
+- Generated command no longer includes `--recode-video mp4`.
 ```
 
 ## File
