@@ -2,7 +2,7 @@
   'use strict';
 
   /**
-   * Builds yt-dlp command-line strings. No UI; used by content script.
+   * Builds yt-dlp command-line strings. No UI; shared by all sites (YouTube, etc.).
    * Start/end times are set on the class when In/Out buttons are pressed.
    */
   function YtdlpCommandBuilder() {}
@@ -15,7 +15,7 @@
   /**
    * Builds the yt-dlp command for the given video URL.
    * Uses YtdlpCommandBuilder.startTime and YtdlpCommandBuilder.endTime if set.
-   * @param {string} videoUrl - Full YouTube watch URL (e.g. https://www.youtube.com/watch?v=...)
+   * @param {string} videoUrl - Full video watch URL (e.g. https://www.youtube.com/watch?v=...)
    * @returns {string} Command in form: yt-dlp "URL" --recode-video mp4 [--download-sections "*start-end"]
    */
   YtdlpCommandBuilder.prototype.build = function (videoUrl) {

@@ -6,14 +6,14 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/watch*"],
-      "css": ["balloon/balloon.css", "button/button.css"],
-      "js": ["youtube-dlp.js", "balloon/balloon-template.js", "balloon/balloon.js", "button/button-template.js", "button/button.js", "content.js"],
+      "css": ["youtube/balloon/balloon.css", "youtube/button/button.css"],
+      "js": ["ytdlp-command.js", "youtube/balloon/balloon-template.js", "youtube/balloon/balloon.js", "youtube/button/button-template.js", "youtube/button/button.js", "youtube/content.js"],
       "run_at": "document_end"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["button/*.svg", "balloon/copied.svg"],
+      "resources": ["youtube/button/*.svg", "youtube/balloon/copied.svg"],
       "matches": ["https://www.youtube.com/*"]
     }
   ]
