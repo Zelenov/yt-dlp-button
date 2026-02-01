@@ -56,7 +56,7 @@
     if (iconEl) {
       iconEl.src = (typeof chrome !== 'undefined' && chrome.runtime && typeof chrome.runtime.getURL === 'function')
         ? chrome.runtime.getURL(ICON_SVG)
-        : '../balloon/copied.svg';
+        : '../src/balloon/copied.svg';
     }
 
     var closeBtn = balloon.querySelector('#' + CLOSE_ID) || balloon.querySelector('button');

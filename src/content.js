@@ -13,7 +13,7 @@
     var html = typeof window.ytytdlp_button_html === 'string' ? window.ytytdlp_button_html : '';
     if (!html || typeof chrome === 'undefined' || !chrome.runtime || !chrome.runtime.getURL) return html;
     var base = chrome.runtime.getURL('button/');
-    return html.replace(/\.\.\/button\//g, base);
+    return html.replace(/\.\.\/src\/button\//g, base);
   }
 
   function createButtonNode() {
