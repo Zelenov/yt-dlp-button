@@ -1,16 +1,16 @@
 /**
- * YT-DLP button logic for design/v1.html.
- * Expects: window.YTYTDLP_BUTTON_HTML (from button-template.js), #ytytdlp-button-container in DOM.
+ * yt-dlp button logic. Used by design/v1.html and by content.js (extension).
+ * Expects: window.ytytdlp_button_html (from button-template.js).
+ * In HTML: #ytytdlp-button-container in DOM for inject(). In extension: content.js injects the node and calls ytytdlp_attachButton().
  */
 (function () {
   'use strict';
 
-  var BALLOON_AUTO_HIDE_MS = 8000;
   var CONTAINER_ID = 'ytytdlp-button-container';
 
   function inject() {
     var container = document.getElementById(CONTAINER_ID);
-    var html = window.YTYTDLP_BUTTON_HTML;
+    var html = window.ytytdlp_button_html;
     if (!container || !html) return;
     container.innerHTML = html;
     var parent = container.parentNode;
@@ -22,23 +22,23 @@
     }
   }
 
-  if (typeof window.YtDlpCommandBuilder === 'undefined') {
-    function YtDlpCommandBuilder() {}
-    YtDlpCommandBuilder.startTime = null;
-    YtDlpCommandBuilder.endTime = null;
-    YtDlpCommandBuilder.prototype.build = function (videoUrl) {
+  if (typeof window.YtdlpCommandBuilder === 'undefined') {
+    function YtdlpCommandBuilder() {}
+    YtdlpCommandBuilder.startTime = null;
+    YtdlpCommandBuilder.endTime = null;
+    YtdlpCommandBuilder.prototype.build = function (videoUrl) {
       if (!videoUrl || typeof videoUrl !== 'string') return '';
       var trimmed = videoUrl.trim();
       if (!trimmed) return '';
       var base = 'yt-dlp "' + trimmed + '" --recode-video mp4';
-      var start = YtDlpCommandBuilder.startTime && YtDlpCommandBuilder.startTime.formatted;
-      var end = YtDlpCommandBuilder.endTime && YtDlpCommandBuilder.endTime.formatted;
+      var start = YtdlpCommandBuilder.startTime && YtdlpCommandBuilder.startTime.formatted;
+      var end = YtdlpCommandBuilder.endTime && YtdlpCommandBuilder.endTime.formatted;
       if (start && end) {
         base += ' --download-sections "*' + start + '-' + end + '"';
       }
       return base;
     };
-    window.YtDlpCommandBuilder = YtDlpCommandBuilder;
+    window.YtdlpCommandBuilder = YtdlpCommandBuilder;
   }
 
   function getVideoCurrentTime() {
@@ -52,37 +52,6 @@
       ? h + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0')
       : m + ':' + String(s).padStart(2, '0');
     return { seconds: seconds, formatted: formatted };
-  }
-
-  function showYtDlpBalloon(message) {
-    if (message && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-      navigator.clipboard.writeText(message).catch(function () {});
-    }
-    var id = 'ytytdlp-balloon';
-    var existing = document.getElementById(id);
-    if (existing) existing.remove();
-    var balloon = document.createElement('div');
-    balloon.id = id;
-    var text = document.createElement('div');
-    text.id = 'ytytdlp-balloon-text';
-    text.textContent = message;
-    var closeBtn = document.createElement('button');
-    closeBtn.id = 'ytytdlp-balloon-close';
-    closeBtn.type = 'button';
-    closeBtn.setAttribute('aria-label', 'Close');
-    closeBtn.textContent = '\u00D7';
-    balloon.appendChild(text);
-    balloon.appendChild(closeBtn);
-    document.body.appendChild(balloon);
-    requestAnimationFrame(function () { balloon.classList.add('ytytdlp-balloon-visible'); });
-    function hide() {
-      balloon.classList.remove('ytytdlp-balloon-visible');
-      setTimeout(function () {
-        if (balloon.parentNode) balloon.parentNode.removeChild(balloon);
-      }, 250);
-    }
-    var timeoutId = setTimeout(hide, BALLOON_AUTO_HIDE_MS);
-    closeBtn.addEventListener('click', function () { clearTimeout(timeoutId); hide(); });
   }
 
   function attachButton() {
@@ -101,8 +70,8 @@
         startBtn.setAttribute('title', labelWithTime);
         var textSpan = startBtn.querySelector('.ytytdlp-duration-text [role="text"]');
         if (textSpan) textSpan.textContent = time ? time.formatted : '';
-        if (time && window.YtDlpCommandBuilder) {
-          window.YtDlpCommandBuilder.startTime = { seconds: time.seconds, formatted: time.formatted };
+        if (time && window.YtdlpCommandBuilder) {
+          window.YtdlpCommandBuilder.startTime = { seconds: time.seconds, formatted: time.formatted };
         }
         startBtn.classList.add('ytytdlp-selected');
         var normal = startBtn.querySelector('.ytytdlp-icon-normal');
@@ -113,9 +82,11 @@
 
     if (midBtn) {
       midBtn.addEventListener('click', function () {
-        var builder = new window.YtDlpCommandBuilder();
+        var builder = new window.YtdlpCommandBuilder();
         var message = builder.build(window.location.href);
-        showYtDlpBalloon(message);
+        if (typeof window.ytytdlp_showBalloon === 'function') {
+          window.ytytdlp_showBalloon(message);
+        }
       });
     }
 
@@ -127,8 +98,8 @@
         endBtn.setAttribute('title', labelWithTime);
         var textSpan = endBtn.querySelector('.ytytdlp-duration-text [role="text"]');
         if (textSpan) textSpan.textContent = time ? time.formatted : '';
-        if (time && window.YtDlpCommandBuilder) {
-          window.YtDlpCommandBuilder.endTime = { seconds: time.seconds, formatted: time.formatted };
+        if (time && window.YtdlpCommandBuilder) {
+          window.YtdlpCommandBuilder.endTime = { seconds: time.seconds, formatted: time.formatted };
         }
         endBtn.classList.add('ytytdlp-selected');
         var normal = endBtn.querySelector('.ytytdlp-icon-normal');
@@ -139,9 +110,12 @@
   }
 
   function run() {
-    inject();
-    attachButton();
+    var container = document.getElementById(CONTAINER_ID);
+    if (container) inject();
+    if (document.getElementById('ytytdlp-button')) attachButton();
   }
+
+  window.ytytdlp_attachButton = attachButton;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', run);

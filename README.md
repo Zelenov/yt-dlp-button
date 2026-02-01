@@ -1,6 +1,6 @@
-# YT-YT-DLP
+# yt-yt-dlp
 
-Chrome extension that adds a **YTDLP** button to YouTube. When you click it, an alert pops up (step 1).
+Chrome extension that adds a **yt-yt-dlp** button to YouTube. When you click it, an alert pops up (step 1).
 
 ## Load the extension in Chrome
 
@@ -9,7 +9,7 @@ Chrome extension that adds a **YTDLP** button to YouTube. When you click it, an 
 3. Click **Load unpacked**
 4. Select the `src` subfolder (this project’s `src` folder)
 5. Open [YouTube](https://www.youtube.com) and open any video
-6. You should see a **YTDLP** button (next to Like/Dislike or top-right). Click it to see the alert.
+6. You should see a **yt-yt-dlp** button (next to Like/Dislike or top-right). Click it to see the alert.
 
 ## Project structure
 

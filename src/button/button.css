@@ -1,6 +1,6 @@
 /**
- * YT-DLP button styles.
- * Loaded by v1.html; scoped to #ytytdlp-button and #ytytdlp-balloon.
+ * yt-dlp button styles.
+ * Loaded by design/v1.html and by the extension (manifest content_scripts); scoped to #ytytdlp-button.
  */
 /* Layout and structure (moved from template inline styles) */
 #ytytdlp-button .ytSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper {
@@ -91,53 +91,3 @@
 }
 #ytytdlp-button .ytytdlp-selected .ytytdlp-icon-normal { display: none !important; }
 #ytytdlp-button .ytytdlp-selected .ytytdlp-icon-selected { display: block !important; }
-
-/* YT-DLP command balloon (Watch Later–style snackbar) */
-#ytytdlp-balloon {
-  position: fixed;
-  left: 50%;
-  bottom: 24px;
-  transform: translateX(-50%) translateY(80px);
-  z-index: 9999;
-  max-width: min(90vw, 560px);
-  padding: 12px 16px 12px 16px;
-  background: #212121;
-  color: #f1f1f1;
-  font-family: "Roboto","Arial",sans-serif;
-  font-size: 14px;
-  line-height: 1.4;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.25s ease-out, opacity 0.2s ease-out;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-#ytytdlp-balloon.ytytdlp-balloon-visible {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-#ytytdlp-balloon-text {
-  flex: 1;
-  word-break: break-all;
-  font-family: "Roboto Mono", "Consolas", monospace;
-  font-size: 13px;
-  user-select: all;
-}
-#ytytdlp-balloon-close {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: #909090;
-  font-size: 18px;
-  line-height: 1;
-  cursor: pointer;
-  border-radius: 4px;
-}
-#ytytdlp-balloon-close:hover { color: #f1f1f1; background: rgba(255,255,255,0.1); }

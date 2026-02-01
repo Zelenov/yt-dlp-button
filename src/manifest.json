@@ -2,17 +2,18 @@
   "manifest_version": 3,
   "name": "yt-yt-dlp",
   "version": "1.0.0",
-  "description": "Adds a YT-DLP button next to Save on YouTube watch pages.",
+  "description": "Adds a yt-dlp button next to Save on YouTube watch pages.",
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/watch*"],
-      "js": ["youtube-dlp.js", "content.js"],
+      "css": ["balloon/balloon.css", "button/button.css"],
+      "js": ["youtube-dlp.js", "balloon/balloon-template.js", "balloon/balloon.js", "button/button-template.js", "button/button.js", "content.js"],
       "run_at": "document_end"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["img/*.svg"],
+      "resources": ["button/*.svg", "balloon/copied.svg"],
       "matches": ["https://www.youtube.com/*"]
     }
   ]
