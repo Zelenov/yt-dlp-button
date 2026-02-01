@@ -202,5 +202,6 @@ When adding or reordering scripts, keep this dependency order.
 - **IDs/attributes:** Button id prefix `ytdlpbutton-button`, container id `ytdlpbutton-button-container`, injected flag `data-ytdlpbutton-injected`, balloon id `ytdlpbutton-balloon`. Used by content.js and tests; avoid renaming without updating all references.
 - **Script order:** Templates and command builder must load before button and balloon logic; button and balloon must load before content.js. When adding scripts, add them in the right place in **manifest.json** and, for tests, in **v1.html**.
 - **Assets:** New SVGs or images used in templates should be listed in **web_accessible_resources** in **manifest.json** and, if used in tests, considered in **rewrite-asset-paths.js**.
+- **Release notes (release.md):** Every version must include **at least one** of **`## Added`** or **`## Changed`**. For initial release (0.1.0) use **`## Added`** with one short line. For later versions use both sections when there are items; omit a section only if nothing to list. See the **create-release-version** skill (`.cursor/skills/create-release-version/`) for the full structure.
 
 This should be enough for Claude (or another AI) to understand the repo, find the right file for a change, and add new code in the right place.
