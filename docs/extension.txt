@@ -1,0 +1,3 @@
+The button generates a yt-dlp command straight on a YouTube page.
+
+Use the optional In and Out buttons to set start and end times from the current playback position.

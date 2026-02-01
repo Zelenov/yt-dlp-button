@@ -1,18 +1,19 @@
-# yt-dlp-button
+<div align="center">
 
-The button that generates yt-dlp command. Chrome extension that adds a **yt-dlp** button to video pages (e.g. YouTube). Click it to get a ready-made yt-dlp command and copy it to the clipboard.
+[![yt-dlp-button](docs/yt-dlp-button-logo.svg)](#readme)
+</div>
 
-## Load the extension in Chrome
+The button generates a **yt-dlp** command straight on a YouTube page. 
 
-1. Open Chrome and go to `chrome://extensions/`
-2. Turn on **Developer mode** (top right)
-3. Click **Load unpacked**
-4. Select the `src` subfolder (this project's `src` folder)
-5. Open [YouTube](https://www.youtube.com) and open any video
-6. You should see a **yt-dlp** button (next to Like/Dislike or top-right). Click it to get the command.
 
-## Project structure
+## Installation
 
-- `src/` — Chrome extension (load this folder in Chrome)
-  - `manifest.json` — extension config (Manifest V3)
-  - `content.js` — runs on supported sites, injects the button and builds yt-dlp command on click
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install-green?style=for-the-badge)](https://chromewebstore.google.com/detail/imdb-normalized-ratings/ofglgfmenoenlfpknjflkcimjiijnedk) [![Load unpacked](https://img.shields.io/badge/Load%20unpacked-Releases-blue?style=for-the-badge)](https://github.com/your-username/ytytdlp/releases)
+
+
+## On YouTube
+![yt-dlp button on a YouTube watch page](docs/yt-dlp-button-cover.jpg)
+
+A new button appears below the video, next to the action row (Like, Share, etc.). 
+
+Click the **yt-dlp** button to copy the command for the current video. Use the optional **In** and **Out** buttons to set start and end times from the current playback position.

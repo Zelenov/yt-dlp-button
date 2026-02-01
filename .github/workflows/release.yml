@@ -1,0 +1,90 @@
+# Main: release only if version doesn't exist. Other branches: draft v{VERSION}-{branch} (replaced each run).
+# To run on a branch: ensure this workflow file is on that branch (e.g. merge main), then push a change to release.md or run manually and choose the branch.
+name: Release extension
+run-name: Release extension — ${{ github.ref_name }}
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['**']
+    paths: ['release.md']
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare variables
+        id: prepare
+        run: |
+          VERSION=$(sed -n '1s/^#[[:space:]]*//p' release.md | tr -d '[:space:]')
+          [ -z "$VERSION" ] && { echo "::error::release.md first line must be '# VERSION'"; exit 1; }
+          BRANCH="${{ github.ref_name }}"
+          SAFE=$(echo "$BRANCH" | sed 's/\//-/g;s/[^a-zA-Z0-9._-]/-/g;s/-*$$//')
+          [ -z "$SAFE" ] && SAFE=branch
+          if [ "$BRANCH" = main ] || [ "$BRANCH" = master ]; then
+            TAG="v$VERSION"
+            NAME="yt-dlp-button v$VERSION"
+            DRAFT=false
+          else
+            TAG="v$VERSION-$SAFE"
+            NAME="yt-dlp-button v$VERSION - $SAFE"
+            DRAFT=true
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+          echo "draft=$DRAFT" >> $GITHUB_OUTPUT
+          if gh release view "$TAG" --repo ${{ github.repository }} 2>/dev/null; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Write release notes
+        if: steps.prepare.outputs.draft == 'true' || steps.prepare.outputs.exists == 'false'
+        run: |
+          awk '/^# / { if (found) exit; found=1 } found' release.md > release-notes.md
+          [ -s release-notes.md ] || echo "See release.md" > release-notes.md
+
+      - name: Set manifest version
+        if: steps.prepare.outputs.draft == 'true' || steps.prepare.outputs.exists == 'false'
+        run: |
+          jq --arg v "${{ steps.prepare.outputs.version }}" '.version = $v' src/manifest.json > src/manifest.json.tmp
+          mv src/manifest.json.tmp src/manifest.json
+
+      - name: Build extension zip
+        if: steps.prepare.outputs.draft == 'true' || steps.prepare.outputs.exists == 'false'
+        run: |
+          cd src
+          zip -r ../yt-dlp-button.zip . -x "*.git*"
+          cd ..
+
+      - name: Remove existing draft and tag
+        if: steps.prepare.outputs.draft == 'true'
+        uses: ClementTsang/delete-tag-and-release@v0.3.1
+        continue-on-error: true
+        with:
+          tag_name: ${{ steps.prepare.outputs.tag }}
+          delete_release: true
+          repo: ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Create release
+        if: steps.prepare.outputs.draft == 'true' || steps.prepare.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.prepare.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: ${{ steps.prepare.outputs.name }}
+          body_path: release-notes.md
+          draft: ${{ steps.prepare.outputs.draft }}
+          files: yt-dlp-button.zip
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
