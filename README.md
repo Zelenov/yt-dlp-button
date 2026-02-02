@@ -3,6 +3,7 @@
 ![yt-dlp-button on YouTube](docs/yt-dlp-button-cover.jpg)
 
 </div>
+
 The button generates a **yt-dlp** command straight on a YouTube page. 
 
 This extension **does not download files**. You run that generated command yourself to download.
@@ -25,3 +26,7 @@ This extension **does not download files**. You run that generated command yours
 A new button appears below the video, next to the action row (Like, Share, etc.).
 
 Click the **yt-dlp** button to copy the command for the current video. Use the optional **In** and **Out** buttons to set start and end times from the current playback position.
+
+## License
+
+[MIT](LICENSE)

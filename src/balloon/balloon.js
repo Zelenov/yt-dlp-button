@@ -20,9 +20,8 @@
     var html = typeof window.ytdlpbutton_balloon_html === 'string' ? window.ytdlpbutton_balloon_html : '';
     if (!html) return;
 
-    var wrap = document.createElement('div');
-    wrap.innerHTML = html.trim();
-    var balloon = wrap.firstElementChild;
+    var doc = new DOMParser().parseFromString(html.trim(), 'text/html');
+    var balloon = doc.body.firstElementChild;
     if (!balloon) return;
 
     var iconEl = balloon.querySelector('#' + ICON_ID) || balloon.querySelector('.ytdlpbutton-balloon-icon');
