@@ -13,12 +13,14 @@
   YtdlpCommandBuilder.endTime = null;
 
   /**
-   * Builds the yt-dlp command for the given video URL.
+   * Builds the full yt-dlp command for the given video URL and optional additional arguments.
    * Uses YtdlpCommandBuilder.startTime and YtdlpCommandBuilder.endTime if set.
+   * Does not fetch anything; caller (e.g. site-specific code) provides additionalArgs.
    * @param {string} videoUrl - Full video watch URL (e.g. https://www.youtube.com/watch?v=...)
-   * @returns {string} Command in form: yt-dlp "URL" [--download-sections "*start-end"]
+   * @param {string} [additionalArgs] - Optional extra CLI args (e.g. from settings); appended as-is (trimmed).
+   * @returns {string} Full command string, or '' if invalid URL.
    */
-  YtdlpCommandBuilder.prototype.build = function (videoUrl) {
+  YtdlpCommandBuilder.prototype.build = function (videoUrl, additionalArgs) {
     if (!videoUrl || typeof videoUrl !== 'string') return '';
     var trimmed = videoUrl.trim();
     if (!trimmed) return '';
@@ -28,18 +30,22 @@
     if (start && end) {
       base += ' --download-sections "*' + start + '-' + end + '"';
     }
+    if (additionalArgs != null && typeof additionalArgs === 'string') {
+      var extraTrimmed = additionalArgs.trim();
+      if (extraTrimmed) base += ' ' + extraTrimmed;
+    }
     return base;
   };
 
   /**
-   * Runs whatever the extension has to do for the given video URL (e.g. build command,
-   * copy, show balloon). Single entry point from any site. Call this when the user
-   * triggers the extension action (e.g. clicks the yt-dlp button).
+   * Builds the command for the given video URL and additional args, copies it to the clipboard, and shows the balloon.
+   * Caller (site-specific code) is responsible for providing videoUrl and additionalArgs.
    * @param {string} videoUrl - Full video watch URL (e.g. https://www.youtube.com/watch?v=...)
+   * @param {string} [additionalArgs] - Optional extra CLI args (e.g. from YouTube settings).
    */
-  YtdlpCommandBuilder.run = function (videoUrl) {
+  YtdlpCommandBuilder.run = function (videoUrl, additionalArgs) {
     var builder = new YtdlpCommandBuilder();
-    var command = builder.build(videoUrl);
+    var command = builder.build(videoUrl, additionalArgs);
     if (!command) return;
     if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
       navigator.clipboard.writeText(command).catch(function () {});
