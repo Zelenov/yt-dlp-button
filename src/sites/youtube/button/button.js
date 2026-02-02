@@ -136,7 +136,7 @@
         var textSpan = startBtn.querySelector('.ytdlpbutton-duration-text [role="text"]');
         if (textSpan) textSpan.textContent = time ? time.formatted : '';
         if (time && window.YtdlpCommandBuilder) {
-          window.YtdlpCommandBuilder.startTime = { seconds: time.seconds, formatted: time.formatted };
+          window.YtdlpCommandBuilder.startTime = time.seconds;
         }
         startBtn.classList.add('ytdlpbutton-selected');
         var normal = startBtn.querySelector('.ytdlpbutton-icon-normal');
@@ -162,7 +162,7 @@
         var textSpan = endBtn.querySelector('.ytdlpbutton-duration-text [role="text"]');
         if (textSpan) textSpan.textContent = time ? time.formatted : '';
         if (time && window.YtdlpCommandBuilder) {
-          window.YtdlpCommandBuilder.endTime = { seconds: time.seconds, formatted: time.formatted };
+          window.YtdlpCommandBuilder.endTime = time.seconds;
         }
         endBtn.classList.add('ytdlpbutton-selected');
         var normal = endBtn.querySelector('.ytdlpbutton-icon-normal');

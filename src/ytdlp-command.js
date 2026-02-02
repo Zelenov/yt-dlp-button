@@ -7,15 +7,25 @@
    */
   function YtdlpCommandBuilder() {}
 
-  /** @type {{ seconds: number, formatted: string } | null} Set when In button is pressed. */
+  /** @type {number | null} Start time in seconds. Set when In button is pressed. */
   YtdlpCommandBuilder.startTime = null;
-  /** @type {{ seconds: number, formatted: string } | null} Set when Out button is pressed. */
+  /** @type {number | null} End time in seconds. Set when Out button is pressed. */
   YtdlpCommandBuilder.endTime = null;
+
+  /** Formats seconds as M:SS or H:MM:SS for yt-dlp --download-sections. */
+  function formatSectionTime(seconds) {
+    if (typeof seconds !== 'number' || !Number.isFinite(seconds) || seconds < 0) return null;
+    var s = Math.floor(seconds % 60);
+    var m = Math.floor((seconds % 3600) / 60);
+    var h = Math.floor(seconds / 3600);
+    return h > 0
+      ? h + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0')
+      : m + ':' + String(s).padStart(2, '0');
+  }
 
   /**
    * Builds the full yt-dlp command for the given video URL and optional additional arguments.
-   * Uses YtdlpCommandBuilder.startTime and YtdlpCommandBuilder.endTime if set.
-   * Does not fetch anything; caller (e.g. site-specific code) provides additionalArgs.
+   * Uses YtdlpCommandBuilder.startTime and YtdlpCommandBuilder.endTime (seconds) if set.
    * @param {string} videoUrl - Full video watch URL (e.g. https://www.youtube.com/watch?v=...)
    * @param {string} [additionalArgs] - Optional extra CLI args (e.g. from settings); appended as-is (trimmed).
    * @returns {string} Full command string, or '' if invalid URL.
@@ -25,10 +35,11 @@
     var trimmed = videoUrl.trim();
     if (!trimmed) return '';
     var base = 'yt-dlp "' + trimmed + '"';
-    var start = YtdlpCommandBuilder.startTime && YtdlpCommandBuilder.startTime.formatted;
-    var end = YtdlpCommandBuilder.endTime && YtdlpCommandBuilder.endTime.formatted;
-    if (start && end) {
-      base += ' --download-sections "*' + start + '-' + end + '"';
+    var start = formatSectionTime(YtdlpCommandBuilder.startTime);
+    var end = formatSectionTime(YtdlpCommandBuilder.endTime);
+    if (start || end) {
+      var section = start && end ? start + '-' + end : start ? start + '-inf' : '00:00-' + end;
+      base += ' --download-sections "*' + section + '"';
     }
     if (additionalArgs != null && typeof additionalArgs === 'string') {
       var extraTrimmed = additionalArgs.trim();
@@ -39,7 +50,7 @@
 
   /**
    * Builds the command for the given video URL and additional args, copies it to the clipboard, and shows the balloon.
-   * Caller (site-specific code) is responsible for providing videoUrl and additionalArgs.
+   * Uses YtdlpCommandBuilder.startTime and YtdlpCommandBuilder.endTime (set when In/Out are pressed).
    * @param {string} videoUrl - Full video watch URL (e.g. https://www.youtube.com/watch?v=...)
    * @param {string} [additionalArgs] - Optional extra CLI args (e.g. from YouTube settings).
    */
