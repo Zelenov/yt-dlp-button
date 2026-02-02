@@ -17,9 +17,8 @@
   function createButtonNode(instanceId) {
     var html = typeof window.ytdlpbutton_button_html === 'string' ? window.ytdlpbutton_button_html : '';
     if (!html) return null;
-    var wrap = document.createElement('div');
-    wrap.innerHTML = html.trim();
-    var button = wrap.firstElementChild;
+    var doc = new DOMParser().parseFromString(html.trim(), 'text/html');
+    var button = doc.body.firstElementChild;
     if (!button) return null;
     button.id = instanceId || BUTTON_ID_PREFIX;
     return button;
