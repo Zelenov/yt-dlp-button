@@ -1,3 +1,11 @@
+# 0.3.0
+## Added
+- Settings panel (extension options) to add optional extra arguments to the generated yt-dlp command for YouTube.
+- Extension icons (16, 32, 48, 128) in the manifest.
+
+## Changed
+- Fixed In/Out start and end segments generation for the download command.
+
 # 0.2.0
 ## Changed
 - Generated command no longer includes `--recode-video mp4`.
