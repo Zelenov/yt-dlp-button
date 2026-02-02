@@ -96,7 +96,7 @@ When adding or reordering scripts, keep this dependency order.
   - **`getInjectionTargets()`** — returns an array of targets. Each target: `{ container, insertBefore?, context }`. `context` has `getVideoUrl()` and `getVideoElement()` so the button can get the current video URL and `<video>` element.
   - **`tryInject()`** — gets targets, calls `ytdlpbutton_injectButton` for each until one succeeds.
   - Uses **MutationObserver** and **polling** (e.g. every 500 ms) until the target area exists and injection succeeds.
-- **Constants:** `FLEXIBLE_BUTTONS_SELECTOR` = `#flexible-item-buttons`, button is placed next to the “Save” button.
+- **Constants:** `SUBSCRIBE_BUTTON_ID` = `subscribe-button`. Button is in the owner row after Subscribe (stays visible when viewport shrinks). Was: `#flexible-item-buttons` (used to find the row parent); button is placed **after** the "More actions" button at the end of the row (was: next to the “Save” button.
 - **Where to put:** Any change to **where** on the YouTube page the button appears, or how many targets (e.g. one video → one target) goes here. Selectors and DOM assumptions for YouTube belong here.
 
 ---

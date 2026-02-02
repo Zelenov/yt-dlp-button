@@ -58,6 +58,44 @@
     return true;
   }
 
+  /**
+   * Normalizes a YouTube watch URL to the canonical video-only form (only the v= parameter).
+   * Handles parameters in any order. E.g. watch?v=ID&list=...&start_radio=1 -> watch?v=ID
+   * @param {string} url - Full page URL (e.g. with list=, start_radio=, etc.)
+   * @returns {string} Normalized URL, or original if parsing fails.
+   */
+  function normalizeYouTubeVideoUrl(url) {
+    if (!url || typeof url !== 'string') return url || '';
+    var trimmed = url.trim();
+    if (!trimmed) return trimmed;
+    try {
+      var parsed = new URL(trimmed);
+      var host = parsed.hostname.toLowerCase();
+      if ((host === 'www.youtube.com' || host === 'youtube.com') && parsed.pathname === '/watch') {
+        var v = parsed.searchParams.get('v');
+        if (v) return parsed.origin + parsed.pathname + '?v=' + v;
+      }
+    } catch (e) {}
+    return trimmed;
+  }
+
+  /**
+   * Builds parameters (videoUrl, additionalArgs) for the command builder. Gets URL from context
+   * and additional args from YtdlpSettings (YouTube section) when available.
+   * @param {function(): string} getVideoUrl
+   * @returns {Promise<{ videoUrl: string, additionalArgs: string }>}
+   */
+  async function getCommandParams(getVideoUrl) {
+    var rawUrl = getVideoUrl();
+    var videoUrl = normalizeYouTubeVideoUrl(rawUrl);
+    var additionalArgs = '';
+    if (typeof window.YtdlpSettings !== 'undefined' && typeof window.YtdlpSettings.getSettings === 'function') {
+      var s = await window.YtdlpSettings.getSettings();
+      additionalArgs = (s.youtube && s.youtube.additionalArgs != null) ? s.youtube.additionalArgs : '';
+    }
+    return { videoUrl: videoUrl, additionalArgs: additionalArgs };
+  }
+
   function getVideoCurrentTime(videoEl) {
     var video = videoEl || document.querySelector('video');
     if (!video || typeof video.currentTime !== 'number' || Number.isNaN(video.currentTime)) return null;
@@ -98,7 +136,7 @@
         var textSpan = startBtn.querySelector('.ytdlpbutton-duration-text [role="text"]');
         if (textSpan) textSpan.textContent = time ? time.formatted : '';
         if (time && window.YtdlpCommandBuilder) {
-          window.YtdlpCommandBuilder.startTime = { seconds: time.seconds, formatted: time.formatted };
+          window.YtdlpCommandBuilder.startTime = time.seconds;
         }
         startBtn.classList.add('ytdlpbutton-selected');
         var normal = startBtn.querySelector('.ytdlpbutton-icon-normal');
@@ -108,10 +146,10 @@
     }
 
     if (midBtn) {
-      midBtn.addEventListener('click', function () {
-        if (window.YtdlpCommandBuilder && typeof window.YtdlpCommandBuilder.run === 'function') {
-          window.YtdlpCommandBuilder.run(getVideoUrl());
-        }
+      midBtn.addEventListener('click', async function () {
+        if (!window.YtdlpCommandBuilder || typeof window.YtdlpCommandBuilder.run !== 'function') return;
+        var params = await getCommandParams(getVideoUrl);
+        window.YtdlpCommandBuilder.run(params.videoUrl, params.additionalArgs);
       });
     }
 
@@ -124,7 +162,7 @@
         var textSpan = endBtn.querySelector('.ytdlpbutton-duration-text [role="text"]');
         if (textSpan) textSpan.textContent = time ? time.formatted : '';
         if (time && window.YtdlpCommandBuilder) {
-          window.YtdlpCommandBuilder.endTime = { seconds: time.seconds, formatted: time.formatted };
+          window.YtdlpCommandBuilder.endTime = time.seconds;
         }
         endBtn.classList.add('ytdlpbutton-selected');
         var normal = endBtn.querySelector('.ytdlpbutton-icon-normal');

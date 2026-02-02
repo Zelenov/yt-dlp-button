@@ -9,28 +9,24 @@
 
   var BUTTON_ID = 'ytdlpbutton-button';
 
-  /** YouTube watch page: selector for the row that contains Save / clip buttons. */
-  var FLEXIBLE_BUTTONS_SELECTOR = '#flexible-item-buttons';
-  /** Text of the button we insert next to (YouTube "Save"). */
-  var SAVE_BUTTON_TEXT = 'Save';
+  /**
+   * We inject after the Subscribe button (in the owner row) so the button stays visible
+   * when the viewport shrinks — the action row (Like, Share, More) can hide, but the
+   * owner row (channel + Subscribe) stays.
+   */
+  var SUBSCRIBE_BUTTON_ID = 'subscribe-button';
 
   /**
-   * Analyzes the page and returns injection targets. One target = one place to
-   * inject the button (e.g. one video → one target; TikTok could return many).
-   * Each target includes a context specific to that container (video URL, video
-   * element) so the button knows which video it belongs to.
+   * Returns injection target: the owner row, right after the Subscribe button.
    * @returns {{ container: Element, insertBefore?: Element, context: { getVideoUrl: function, getVideoElement: function } }[]}
    */
   function getInjectionTargets() {
-    var container = document.querySelector(FLEXIBLE_BUTTONS_SELECTOR);
-    if (!container) return [];
+    var subscribeEl = document.getElementById(SUBSCRIBE_BUTTON_ID);
+    if (!subscribeEl || !subscribeEl.parentNode) return [];
 
-    var saveWrapper = Array.from(container.querySelectorAll('yt-button-view-model')).find(function (el) {
-      var textEl = el.querySelector('.yt-spec-button-shape-next__button-text-content');
-      return textEl && textEl.textContent.trim() === SAVE_BUTTON_TEXT;
-    });
+    var container = subscribeEl.parentNode;
+    var insertBefore = subscribeEl.nextSibling;
 
-    var insertBefore = saveWrapper && saveWrapper.nextSibling || null;
     var context = {
       getVideoUrl: function () { return window.location.href; },
       getVideoElement: function () { return document.querySelector('video'); }

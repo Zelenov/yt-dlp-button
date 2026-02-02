@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>yt-dlp-button options</title>
+	<link rel="stylesheet" href="panel.css">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="color-scheme" content="light dark">
+</head>
+
+<body>
+	<main>
+		<section>
+			<h1 class="section-title">YouTube Options</h1>
+			<h2 class="setting-header">Additional Arguments</h2>
+			<textarea id="additionalArgsInput" class="setting-input" placeholder="e.g. --no-playlist"></textarea>
+			<button type="button" id="saveButton" class="save-button">Save</button>
+			<span id="saveStatus" class="save-status" aria-live="polite"></span>
+		</section>
+	</main>
+	<script src="../ytdlp-settings.js"></script>
+	<script src="panel.js"></script>
+</body>
+
+</html>
