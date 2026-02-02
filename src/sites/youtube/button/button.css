@@ -2,6 +2,11 @@
  * yt-dlp button styles.
  * Loaded by design/v1.html and by the extension (manifest content_scripts); scoped to #ytdlpbutton-button.
  */
+/* Spacing from previous item (e.g. bell icon) to match other buttons on the owner row */
+#ytdlpbutton-button {
+  margin-left: 8px;
+}
+
 /* Layout and structure (moved from template inline styles) */
 #ytdlpbutton-button .ytSegmentedLikeDislikeButtonViewModelSegmentedButtonsWrapper {
   display: flex;

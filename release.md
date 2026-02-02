@@ -1,3 +1,10 @@
+# 0.4.0
+## Added
+- Firefox and Edge support; Firefox 109 or newer required for Firefox.
+
+## Changed
+- Button position fixed so it stays in place when the browser window is resized.
+
 # 0.3.0
 ## Added
 - Settings panel (extension options) to add optional extra arguments to the generated yt-dlp command for YouTube.
