@@ -38,7 +38,10 @@
   function injectInto(target) {
     var container = target.container;
     if (!container || !container.parentNode) return false;
-    if (container.getAttribute(CONTAINER_INJECTED_ATTR)) return false;
+    /* Already injected and the button is still there: nothing to do. If YouTube re-rendered
+       the row and dropped our node, allow re-injection even though the marker is set. */
+    if (container.getAttribute(CONTAINER_INJECTED_ATTR) &&
+        container.querySelector('[id^="' + BUTTON_ID_PREFIX + '"]')) return false;
 
     var instanceId = target.id || BUTTON_ID_PREFIX;
     var node = createButtonNode(instanceId);
@@ -122,9 +125,9 @@
     var getVideoUrl = context.getVideoUrl || function () { return window.location.href; };
     var getVideoElement = context.getVideoElement || function () { return document.querySelector('video'); };
 
-    var startBtn = wrapper.querySelector('.yt-spec-button-shape-next--segmented-start');
+    var startBtn = wrapper.querySelector('.ytdlpbutton-segment-start');
     var midBtn = wrapper.querySelector('.ytdlpbutton-segment-mid');
-    var endBtn = wrapper.querySelector('.yt-spec-button-shape-next--segmented-end');
+    var endBtn = wrapper.querySelector('.ytdlpbutton-segment-end');
 
     if (startBtn) {
       startBtn.addEventListener('click', function () {

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "yt-dlp-button",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "The button that generates yt-dlp command.",
   "permissions": ["storage"],
   "browser_specific_settings": {
