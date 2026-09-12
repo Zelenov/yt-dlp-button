@@ -1,6 +1,7 @@
 /**
  * yt-dlp button styles.
- * Loaded by design/v1.html and by the extension (manifest content_scripts); scoped to #ytdlpbutton-button.
+ * Loaded by tests/youtube/v1.html and by the extension (manifest content_scripts); scoped to #ytdlpbutton-button.
+ * Selectors use our own hooks (ytdlpbutton-*) so they survive YouTube renaming its classes.
  */
 /* Spacing from previous item (e.g. bell icon) to match other buttons on the owner row */
 #ytdlpbutton-button {
@@ -17,31 +18,31 @@
   position: relative;
 }
 /* Start/End: icon container follows the visible SVG width (6px normal, 24px selected) */
-#ytdlpbutton-button .yt-spec-button-shape-next--segmented-start .yt-spec-button-shape-next__icon,
-#ytdlpbutton-button .yt-spec-button-shape-next--segmented-end .yt-spec-button-shape-next__icon {
+#ytdlpbutton-button .ytdlpbutton-segment-start .ytdlpbutton-icon,
+#ytdlpbutton-button .ytdlpbutton-segment-end .ytdlpbutton-icon {
   width: fit-content;
   height: 24px;
   margin-left: 0;
   margin-right: 0;
 }
-#ytdlpbutton-button .yt-spec-button-shape-next--segmented-start .ytIconWrapperHost,
-#ytdlpbutton-button .yt-spec-button-shape-next--segmented-end .ytIconWrapperHost {
+#ytdlpbutton-button .ytdlpbutton-segment-start .ytIconWrapperHost,
+#ytdlpbutton-button .ytdlpbutton-segment-end .ytIconWrapperHost {
   width: fit-content;
   height: 24px;
 }
-#ytdlpbutton-button .yt-spec-button-shape-next--segmented-start .yt-icon-shape.ytSpecIconShapeHost,
-#ytdlpbutton-button .yt-spec-button-shape-next--segmented-end .yt-icon-shape.ytSpecIconShapeHost {
+#ytdlpbutton-button .ytdlpbutton-segment-start .ytdlpbutton-icon-shape,
+#ytdlpbutton-button .ytdlpbutton-segment-end .ytdlpbutton-icon-shape {
   width: fit-content;
   height: 100%;
   display: block;
 }
-#ytdlpbutton-button .yt-icon-shape.ytSpecIconShapeHost {
+#ytdlpbutton-button .ytdlpbutton-icon-shape {
   width: 100%;
   height: 100%;
   display: block;
 }
-#ytdlpbutton-button .yt-spec-button-shape-next--segmented-start .ytSpecIconShapeHost > div,
-#ytdlpbutton-button .yt-spec-button-shape-next--segmented-end .ytSpecIconShapeHost > div {
+#ytdlpbutton-button .ytdlpbutton-segment-start .ytSpecIconShapeHost > div,
+#ytdlpbutton-button .ytdlpbutton-segment-end .ytSpecIconShapeHost > div {
   width: fit-content;
   height: 100%;
   display: block;
@@ -77,9 +78,9 @@
   padding-right: 8px;
 }
 /* In/out segments: size to content (icon + duration text when set); was min-width: 5em (= 70px at 14px font) */
-/* Override .yt-spec-button-shape-next { flex: 1; flex-basis: 0.000000001px } so start/end use content width */
-#ytdlpbutton-button .yt-spec-button-shape-next--segmented-start,
-#ytdlpbutton-button .yt-spec-button-shape-next--segmented-end {
+/* Override YouTube button host { flex: 1; flex-basis: 0.000000001px } so start/end use content width */
+#ytdlpbutton-button .ytdlpbutton-segment-start,
+#ytdlpbutton-button .ytdlpbutton-segment-end {
   flex: none;
   flex-basis: auto;
   min-width: 0;

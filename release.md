@@ -1,3 +1,8 @@
+# 0.4.1
+## Changed
+- Fixed the yt-dlp button not appearing on YouTube: the injection point now skips YouTube's loading-skeleton placeholder and re-injects after in-page navigation.
+- Fixed the button losing its styling after YouTube renamed its button classes to camelCase (`ytSpecButtonShapeNext*`); the template now carries both old and new class names.
+
 # 0.4.0
 ## Added
 - Firefox and Edge support; Firefox 109 or newer required for Firefox.
